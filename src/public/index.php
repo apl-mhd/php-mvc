@@ -6,23 +6,20 @@
 //require_once('../PaymentGateway/Paddle/Transaction.php');
 //require_once('./namespace/app/PaymentGateway/Paddle/Transaction.php');
 
-//require_once('../app/PaymentGateway/Paddle/Transaction.php');
-//string(33) "PaymentGateway\Paddle\Transaction"
-// spl_autoload_register(function($class){
+echo __DIR__ . PHP_EOL;
+spl_autoload_register(function($class){
 
-//     $class =  str_replace('\\', '/', $class). '.php';
-//     var_dump($class);
-// });
-
-$a = '../app/PaymentGateway/Paddle/Transaction.php';
-//echo __DIR__;
-//require_once(__DIR__ . '/' . $a);
-require_once($a);
+    $path  = __DIR__ . '/../' . lcfirst(str_replace('\\', '/', $class). '.php');
+    require $path;
+});
 
 
- use PaymentGateway\Paddle\Transaction;
 
- $paddleTransaction = new Transaction();
+use App\PaymentGateway\Paddle\Transaction;
+use App\PaymentGateway\Stripe\Transaction as t;
+use App\PaymentGateway\Paddle\CustomerProfile;
 
-// var_dump($paddleTransaction);
+ $paddleTransaction = new t();
+
+ var_dump($paddleTransaction);
 
