@@ -1,14 +1,16 @@
 <?php
-
-
+use App\Router;
 require __DIR__ . '/../vendor/autoload.php';
 
 
-use App\PaymentGateway\Paddle\Transaction;
+$router = new  App\Router();
+
+$router->register('/', function (){
+    echo  'Home';
+});
 
 
-$paddleTransaction = new Transaction();
+$router->register('/invoices', function (){
 
- //var_dump($paddleTransaction);
-
-
+    echo  'Invoice';
+});
