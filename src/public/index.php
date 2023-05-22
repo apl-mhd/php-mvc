@@ -14,3 +14,5 @@ $router->register('/invoices', function (){
 
     echo  'Invoice';
 });
+
+echo $router->resolve($_SERVER['REQUEST_URI']);

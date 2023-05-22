@@ -3,7 +3,7 @@
 declare(strict_types = 1);
 
 namespace App;
-
+use App\Exceptions\RouteNofFoundException;
 class Router
 {
 
@@ -23,8 +23,10 @@ class Router
         $action = $this->routes[$route] ?? null;
 
         if (! $action){
-            
+            throw new RouteNofFoundException();
         }
+
+        call_user_func($action);
     }
 
 }
