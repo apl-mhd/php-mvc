@@ -3,7 +3,7 @@
 declare(strict_types = 1);
 
 namespace App;
-use App\Exceptions\RouteNofFoundException;
+use App\Exceptions\RouteNotFoundException;
 class Router
 {
 
@@ -23,7 +23,7 @@ class Router
         $action = $this->routes[$route] ?? null;
 
         if (! $action) {
-            throw new RouteNofFoundException();
+            throw new RouteNotFoundException();
         }
 
         if (is_callable($action)) {
@@ -47,7 +47,7 @@ class Router
         }
 
 
-        throw new RouteNofFoundException();
+        throw new RouteNotFoundException();
 
     }
 
