@@ -10,7 +10,16 @@ class Invoice{
     }
 
     public function create() :string{
+        return '<form action="/invoices/create" method="post" >
+                    <lable>Amount</label>
+                    <input type="text" name="amount" />
+                </form>';
+    }
 
-        return 'invoice create';
+    public function store(){
+
+        $amount = $_POST['amount'];
+
+        var_dump($amount);
     }
 }
