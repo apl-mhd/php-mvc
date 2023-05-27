@@ -60,12 +60,9 @@ class Router
                 }
 
             }
-            call_user_func($action);
         }
 
-
         throw new RouteNotFoundException();
-
     }
 
 }
