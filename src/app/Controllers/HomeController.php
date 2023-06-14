@@ -14,18 +14,11 @@ class HomeController{
     }
 
 
-    public function upload(){
-        echo '<pre>';
-        var_dump($_FILES);
-        echo '</pre>';
-
+    public function upload()
+    {
     
         $filePath = STORAGE_PATH . '/' . $_FILES['receipt']['name'];
         move_uploaded_file($_FILES['receipt']['tmp_name'], $filePath);
-
-        // echo '<pre>';
-        // var_dump(pathinfo($filePath));
-        // echo '<pre>';
 
         header('Location: /');
 
