@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    Invoice
+    Invoice <?php echo $a ?>
 </body>
 
 </html>

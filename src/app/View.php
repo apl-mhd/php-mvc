@@ -28,11 +28,11 @@ class View{
             throw new ViewNotFoundException();
         }
 
-        // foreach($this->params as $key => $value){
-        //     $$key = $value;
-        // }
+        foreach($this->params as $key => $value){
+            $$key = $value;
+        }
 
-        extract($this->params);
+        //extract($this->params);
 
         ob_start();
 
