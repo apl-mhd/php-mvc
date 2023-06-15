@@ -10,10 +10,12 @@
 
 <body>
     <!-- <h1><?= $foo ?></h1> -->
-    <form action="/upload" method="post" enctype="multipart/form-data">
+    <!-- <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="receipt" />
         <button type="submit"> Upload </button>
-    </form>
+    </form> -->
+
+    <h1>home page</h1>
 </body>
 
 </html>
