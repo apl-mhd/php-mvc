@@ -13,42 +13,58 @@ class HomeController{
     public function index(): View{
 
        try{
-            $db = new PDO('mysql:host=127.0.0.1;dbname=blog', 'root', 'admin', []);
-
-            $name = 'e';
-            $slug = 'e';
-            $created_at = date('Y-m-d H:m:i', strtotime('07/11/2022 9:00PM'));
-            $query = 'INSERT into categories(name, slug, created_at, updated_at) VALUES(:name, :slug, :created_at, :updated_at)';
-            $stmt = $db->prepare($query);
-            
-            $stmt->bindValue('name', $name);
-            $stmt->bindValue('slug', $slug);
-            $stmt->bindValue('created_at', $created_at);
-            $stmt->bindValue('updated_at', $created_at);
-            $stmt->execute();
-            // $stmt->execute([
-            //     'name' => $name,
-            //      'slug' => $slug,
-            //       'created_at' => $created_at
-            // ]);
-            // $stmt->execute([
-            //     'name' => $name,
-            //      'slug' => $slug,
-            //       'created_at' => $created_at
-            // ]);
-            $id = $db->lastInsertId();
-            $category = $db->query('select * from categories where id = ' . $id)->fetch();
-
-            echo '<pre>';
-                var_dump($category);
-            echo '</pre>';
-            
-
-        }
-        catch(PDOException $e){
+            $db = new PDO(
+                'mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_DATABSE'],
+                 $_ENV['DB_USER'],
+                 $_ENV['DB_PASS']
+            );
+       }
+        catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), $e->getCode());
         }
+            $name = 'name';
+            $userName = 'username4';
+            $email = 'mail4@mail.ocm';
+            $password =  'password';
+            $isAdmin = true;
 
+            $categoryId = 1;
+            $title = 'title';
+
+            try{
+            $db->beginTransaction();
+
+            $newUserStmt = $db->prepare(
+                'INSERT INTO users(name, username, email, password, is_admin, created_at)  VALUES(?, ?, ?, ?, ?, now())'
+            );
+
+            $newPostStmt = $db->prepare('INSERT INTO posts(user_id, category_id, title, created_at) VALUES(?, ?, ?, now())');
+
+            $newUserStmt->execute([$name, $userName, $email, $password, $isAdmin]);
+
+            $id = (int)$db->lastInsertId();
+
+            $newPostStmt->execute([$id, $categoryId, $title]);
+
+            $db->commit();
+
+            }
+
+            catch(\Throwable $e){
+                $db->rollBack();
+            }
+         
+            $fetchStmt = $db->prepare('SELECT posts.id AS post_id, title, category_id FROM posts 
+                INNER JOIN users ON user_id = users.id
+                WHERE user_id = ?
+            ');
+
+            $fetchStmt->execute([1]);
+
+            echo '<pre>';
+                var_dump($fetchStmt->fetch(PDO::FETCH_ASSOC));
+            echo '</pre>';
+            
         return View::make('index');
     }
 
