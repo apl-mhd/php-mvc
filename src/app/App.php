@@ -14,6 +14,8 @@ class App
 
     public function __construct(protected Router $router, protected array $request, protected array $config) 
     {
+
+//static:$db  = new DB()
         try {
             static::$db = new PDO(
                 $config['driver'] .':host=' . $config['host'] . ';dbname=' . $config['database'],
