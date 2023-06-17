@@ -11,7 +11,7 @@ use Exception;
 use PDOException;
 use App\Models\User;
 use App\Models\Invoice;
-
+use App\Models\SignUp;
 
 class HomeController
 {
@@ -19,33 +19,28 @@ class HomeController
     public function index(): View
     {
 
-        $db = App::db();
+       // $db = App::db();
 
         $name = 'name';
-        $email = 'mail10@mail.ocm';
-
+        $email = 'mail14@mail.ocm';
         $amount = 10;
 
-        try {
-            $db->beginTransaction();
+        $userModel = new User();
+        $invoiceModel = new Invoice();
 
-            $userModel = new User();
-            $invoiceModel = new Invoice();
+      $invoiceId = (new SignUp($userModel, $invoiceModel))->register(
+            [
+                'email' => $email,
+                'name' => $name,
+            ],
+            [
+                'amount' => $amount,
+            ]
 
-            $userId = $userModel->create($email, $name);
-            $invoiceId = $invoiceModel->create($amount, $userId);
+        );
 
-            $db->commit();
-        } catch (\Throwable $e) {
-            if ($db->inTransaction()) {
-                $db->rollBack();
-            }
-
-            throw $e;
-        }
-
-        return View::make('index', ['invoice' => $invoiceModel->find($invoiceId)]);
-        //   return View::make('index');
+       return View::make('index', ['invoice' => $invoiceModel->find($invoiceId)]);
+       //    return View::make('index');
     }
 
 
