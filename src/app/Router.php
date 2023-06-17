@@ -9,7 +9,7 @@ use PDO;
 class Router
 {
 
-    private array $routes;
+    private array $routes =[];
 
 
     public function register(string $requestMethod, string $route, callable | array $action ): self{
