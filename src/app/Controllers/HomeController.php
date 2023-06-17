@@ -18,8 +18,8 @@ class HomeController{
         $db = App::db();
 
             $name = 'name';
-            $userName = 'username4';
-            $email = 'mail4@mail.ocm';
+            $userName = 'username7';
+            $email = 'mail7@mail.ocm';
             $password =  'password';
             $isAdmin = true;
 

@@ -7,15 +7,16 @@ use App\Router;
 use App\View;
 use App\DB;
 use PDO;
+use App\Config;
 
 class App
 {
 
     private static DB $db;
 
-    public function __construct(protected Router $router, protected array $request, protected array $config) 
+    public function __construct(protected Router $router, protected array $request, protected Config $config) 
     {
-        static::$db  = new DB($config);
+        static::$db  = new DB($config->db ?? []);
     }
 
     public static function db(): DB{
