@@ -3,6 +3,8 @@
 namespace App;
 
 use PDO;
+use PDOException;
+
 
 /**
  * @mixin PDO
@@ -25,8 +27,8 @@ class DB
                 $config['pass'],
                 $config['options'] ?? $defaultOptions,
             );
-        } catch (\PDOException $e) {
-            throw new \PDOException($e->getMessage(), $e->getCode());
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
 
