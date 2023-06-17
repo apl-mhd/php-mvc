@@ -10,12 +10,12 @@ use Exception;
 use PDO;
 use PDOException;
 
+
 class HomeController{
 
     public function index(): View{
 
         $db = App::db();
-       
 
             $name = 'name';
             $userName = 'username4';

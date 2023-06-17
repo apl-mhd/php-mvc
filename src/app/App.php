@@ -5,29 +5,20 @@ declare(strict_types=1);
 namespace App;
 use App\Router;
 use App\View;
+use App\DB;
 use PDO;
 
 class App
 {
 
-    private static PDO $db;
+    private static DB $db;
 
     public function __construct(protected Router $router, protected array $request, protected array $config) 
     {
-
-//static:$db  = new DB()
-        try {
-            static::$db = new PDO(
-                $config['driver'] .':host=' . $config['host'] . ';dbname=' . $config['database'],
-                $config['user'],
-                $config['pass']
-            );
-        } catch (\PDOException $e) {
-            throw new \PDOException($e->getMessage(), $e->getCode());
-        }
+        static::$db  = new DB($config);
     }
 
-    public static function db(): PDO{
+    public static function db(): DB{
 
         return static::$db;
     }
