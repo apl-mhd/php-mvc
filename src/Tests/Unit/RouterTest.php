@@ -6,6 +6,7 @@ namespace Tests\Unit;
 use App\Exceptions\RouteNotFoundException;
 use App\Router;
 use PHPUnit\Framework\TestCase;
+use Tests\DataProviders\RouterDataProvider;
 
 class RouterTest extends TestCase
 {
@@ -31,7 +32,7 @@ class RouterTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected,$this->router->routes());
+        $this->assertSame($expected,$this->router->routes());
     }
 
     /** @test **/
@@ -45,7 +46,7 @@ class RouterTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected,$this->router->routes());
+        $this->assertSame($expected,$this->router->routes());
     }
     
     /** @test **/
@@ -59,7 +60,7 @@ class RouterTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected,$this->router->routes());
+        $this->assertSame($expected,$this->router->routes());
     }
 
     /** @test **/
@@ -71,7 +72,7 @@ class RouterTest extends TestCase
 
     /** 
      * @test
-     * @dataProvider routeNotFoundCases
+     * @dataProvider \Tests\DataProviders\RouterDataProvider::routeNotFoundCases
      */
     public function it_throws_route_not_found_exception(
         string $requestUri,
@@ -94,13 +95,31 @@ class RouterTest extends TestCase
         $this->router->resolve($requestUri, $requestMethod);
     }
 
-    public static function routeNotFoundCases(): array
+    /** @test */
+    public function it_resolves_route_from_a_closuer(): void
     {
-        return[
-            ['/users', 'put'],
-            ['/invoices', 'post'],
-            ['/users', 'get'],
-            ['/users', 'post'],
-        ];
+        $this->router->get('/users', fn()=> [1,2,3]);
+
+        $this->assertSame(
+            [1,2,3],
+            $this->router->resolve('/users', 'get')
+        );
     }
+
+    /** @test */
+    public function it_resolves_route(): void
+    {
+        $users = new class(){
+            public function index(): array
+            {
+                return [1,2,3];
+            }
+         };
+
+         $this->router->get('/users', [$users::class, 'index']);
+         $this->assertSame([1,2,3], $this->router->resolve('/users', 'get'));
+    }
+
+
+
 }
