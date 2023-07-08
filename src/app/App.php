@@ -8,6 +8,11 @@ use App\View;
 use App\DB;
 use PDO;
 use App\Config;
+use App\Container;
+use App\Services\EmailService;
+use App\Services\InvoiceService;
+use App\Services\PaymentGateWayService;
+use App\Services\SaleTaxService;
 
 class App
 {
@@ -17,6 +22,7 @@ class App
     public function __construct(protected Router $router, protected array $request, protected Config $config) 
     {
         static::$db  = new DB($config->db ?? []);
+
     }
 
     public static function db(): DB{

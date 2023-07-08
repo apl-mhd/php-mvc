@@ -7,49 +7,27 @@ namespace App\Controllers;
 use PDO;
 use App\App;
 use App\View;
+use App\Container;
 use Exception;
 use PDOException;
 use App\Models\User;
 use App\Models\Invoice;
 use App\Models\SignUp;
+use App\Services\InvoiceService;
 
 class HomeController
 {
+    public function __construct(private InvoiceService $invoiceService)
+    {
+         
+    }
 
     public function index(): View
-    {
+    {   
+        $this->invoiceService->process([], 25);
 
-       // $db = App::db();
+        return View::make('index');
 
-        $name = 'name';
-        $email = 'mail14@mail.ocm';
-        $amount = 10;
-
-        $userModel = new User();
-        $invoiceModel = new Invoice();
-
-      $invoiceId = (new SignUp($userModel, $invoiceModel))->register(
-            [
-                'email' => $email,
-                'name' => $name,
-            ],
-            [
-                'amount' => $amount,
-            ]
-
-        );
-
-       return View::make('index', ['invoice' => $invoiceModel->find($invoiceId)]);
-       //    return View::make('index');
     }
 
-
-    public function upload()
-    {
-
-        $filePath = STORAGE_PATH . '/' . $_FILES['receipt']['name'];
-        move_uploaded_file($_FILES['receipt']['tmp_name'], $filePath);
-
-        header('Location: /');
-    }
 }
