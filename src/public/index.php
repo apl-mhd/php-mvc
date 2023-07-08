@@ -2,6 +2,7 @@
 
 use App\Router;
 use App\Config;
+use App\Container;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -13,7 +14,8 @@ session_start();
 define('STORAGE_PATH', __DIR__ . '/../storage');
 define('VIEW_PATH', __DIR__ . '/../views');
 
-$router = new Router();
+$container = new Container();
+$router = new Router($container);
 
 $router
     ->get('/', [App\Controllers\HomeController::class, 'index'])
