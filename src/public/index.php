@@ -25,6 +25,7 @@ $router
     ->post('/invoices/create', [App\Controllers\InvoiceController::class, 'store']);
 
 (new App\App(
+    $container,
     $router,
     ['uri' => $_SERVER['REQUEST_URI'],'method' => $_SERVER['REQUEST_METHOD']], 
     
