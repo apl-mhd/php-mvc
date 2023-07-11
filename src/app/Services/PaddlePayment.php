@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-class PaymentGateWayService
+class PaddlePayment implements PaymentGateWayInterFace
 {
 
     public function charge(array $customer, float $amount, $tax):bool
     {
-        //sleep(1);
+        echo 'Charging from paddle <br/>';
 
         return (bool) mt_rand(0,1);
     }

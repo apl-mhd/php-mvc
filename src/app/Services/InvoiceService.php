@@ -8,7 +8,7 @@ class InvoiceService
 {
     public function __construct(
         protected SaleTaxService $saleTaxService,
-        protected PaymentGateWayService $gateWayService, 
+        protected PaymentGateWayInterFace $paymentGetWay, 
         protected EmailService $emailService
     )
     {
@@ -23,7 +23,7 @@ class InvoiceService
         $tax = $this->saleTaxService->calculate($amount, $customer);
 
         //2. process invoice
-        if(! $this->gateWayService->charge($customer, $amount, $tax)) {
+        if(! $this->paymentGetWay->charge($customer, $amount, $tax)) {
             return false;
         }
 
