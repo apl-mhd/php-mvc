@@ -3,11 +3,12 @@
 declare(strict_types = 1);
 
 namespace App\Controllers;
-
+use App\Models\Ticket;
+use Generator;
 
 class GeneratorExampleController
 {
-    public function __construct()
+    public function __construct(private Ticket $ticketModel)
     {
      
         
@@ -15,26 +16,14 @@ class GeneratorExampleController
 
     public function index()
     {
-        $numbers = $this->lazyRange(1, 10);
+        $tickets = $this->ticketModel->all();
 
-        // echo $numbers->current();
-
-        // $numbers->next();
-
-        // echo $numbers->current();
-
-        foreach($numbers as $key => $value) {
-            echo $key . ': ' . $numbers . '<br/>';
+        $tickets->rewind();
+        foreach($tickets as $ticket){
+            echo $ticket['id'] . ':' . substr($ticket['content'], 0, 15) . '<br/>';
         }
-        // echo '<pre>';
-        // print_r($numbers);
-        // echo '</pre>';
+        
     }
 
-    public function lazyRange(int $start, int $end): \Generator
-    {   $numbers = [];
-        for($i = $start; $i <= $end; $i++){
-            yield $i;
-        }  
-    }
+   
 }
